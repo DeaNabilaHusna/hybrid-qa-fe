@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "../styles/pages/chat.module.scss";
 import Header from "../components/Header";
 
@@ -7,7 +7,11 @@ export default function ChatPage() {
     []
   );
   const [input, setInput] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
   const handleSend = () => {
     if (!input.trim()) return;
 
@@ -19,6 +23,8 @@ export default function ChatPage() {
 
     setMessages((prev) => [...prev, userMessage, botReply]);
     setInput("");
+
+    inputRef.current?.focus();
   };
 
   return (
@@ -46,8 +52,15 @@ export default function ChatPage() {
           <div className={styles.inputBox}>
             <input
               type="text"
+              ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
               placeholder="Tanyakan sesuatu..."
             />
             <button className={styles.button} onClick={handleSend}>
