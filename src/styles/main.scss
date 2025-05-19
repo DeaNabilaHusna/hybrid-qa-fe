@@ -1,8 +1,8 @@
-@import '_variables.scss';
-@import '_base.scss';
-@import '_reset.scss';
+@use "./variables" as *;
+@use "./reset" as *;
+@use "./base" as *;
 
 body {
-    font-family: $font-family;
-    line-height: $line-height;
+  font-family: $font-family;
+  line-height: $line-height;
 }
